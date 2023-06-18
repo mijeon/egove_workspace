@@ -1,0 +1,52 @@
+package com.mj.board.controller;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.mj.board.model.BoardDAO;
+import com.mj.board.model.BoardService;
+import com.mj.domain.Board;
+import com.mj.exception.BoardException;
+
+public class WriteController extends HttpServlet {
+	private BoardService boardService=new BoardService();
+	
+	//넘겨받은 파라미터들을 이용하여 모델 객체에 일 시킴
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		request.setCharacterEncoding("utf-8");   //파라미터 문자 인코딩
+		response.setContentType("text/html;charset=UTF-8");
+		//파라미터 받기
+		String title=request.getParameter("title");
+		String writer=request.getParameter("writer");
+		String content=request.getParameter("content");
+		
+		System.out.println(title);
+		System.out.println(writer);
+		System.out.println(content);
+		
+		Board board=new Board();  //빈 dto 생성
+		
+		//파라미터 넣기
+		board.setTitle(title);
+		board.setWriter(writer);
+		board.setContent(content);
+		
+		PrintWriter out= response.getWriter();
+		
+		out.print("<script>");
+		try {
+			boardService.insert(board);
+			out.print("alert('성공');");
+			out.print("location.href='/board/list.jsp';");
+		} catch (BoardException e) {
+			e.printStackTrace();
+			out.print("alert('실패');");
+		}
+		out.print("</script>");
+	}
+}

@@ -1,0 +1,7 @@
+package com.mj.board.model;
+
+public class PoolManager {
+	//풀로부터 Connection 하나 얻기
+	
+	//풀로 돌려보내는 메서드
+}

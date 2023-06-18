@@ -1,0 +1,15 @@
+package com.mj.board.model;
+
+import java.sql.Connection;
+
+public class PoolManager {
+	//풀로부터 Connection 하나 얻기
+	public Connection getConnection() {
+		return null;
+	}
+	
+	//풀로 돌려보내는 메서드
+	public void freeConnection() {
+		
+	}
+}

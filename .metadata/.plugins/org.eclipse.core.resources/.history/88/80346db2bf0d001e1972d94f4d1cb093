@@ -1,0 +1,28 @@
+package com.mj.board.model;
+
+import java.sql.Connection;
+
+import com.mj.domain.Board;
+import com.mj.exception.BoardException;
+
+public class BoardService {
+	private PoolManager pool=PoolManager.getInstance();
+	private BoardDAO boardDAO=new BoardDAO();
+	
+	//글쓰기
+	public void insert(Board board) throws BoardException{
+		//dao가 아닌 service에서 connenction을 얻어오는 이유는?
+		//서비스는 dao들을 이용해 트랜잭션 처리를 해야 하기 때문에 dao들 간의 connection을 공유시키기 위함
+		Connection con=pool.getConnection();  
+		
+		boardDAO.setCon(con);  //일시키기 전에 connection 빌려오기
+		con.setAutoCommit(false);
+		try {
+			boardDAO.insert(board);
+			
+		} catch (BoardException e) {
+			e.printStackTrace();
+		}
+		pool.freeConnection(con);  //일 시킨 후 connection 반납
+	}
+}

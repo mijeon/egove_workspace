@@ -1,0 +1,5 @@
+package com.mj.board.model;
+
+public class PoolManager {
+
+}
